@@ -4,6 +4,7 @@ import Sidebar from '@/components/Sidebar';
 import TopBar from '@/components/TopBar';
 import EmailCard from '@/components/EmailCard';
 import EmailModal from '@/components/EmailModal';
+import TopThreadsCard from '@/components/TopThreadsCard';
 import { emailThreads, EmailThread } from '@/components/data';
 
 const Index = () => {
@@ -37,6 +38,21 @@ const Index = () => {
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
+  // Get top threads sorted by urgency (High first) and then by unread status
+  const getTopThreads = () => {
+    return [...emailThreads]
+      .sort((a, b) => {
+        // Sort by urgency (High > Medium > Low)
+        const urgencyOrder = { High: 0, Medium: 1, Low: 2 };
+        if (urgencyOrder[a.urgency] !== urgencyOrder[b.urgency]) {
+          return urgencyOrder[a.urgency] - urgencyOrder[b.urgency];
+        }
+        // Then sort by unread status (unread first)
+        return b.unread ? 1 : a.unread ? -1 : 0;
+      })
+      .slice(0, 3);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col w-full">
       <TopBar toggleSidebar={toggleSidebar} />
@@ -51,6 +67,10 @@ const Index = () => {
         
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
           <div className="max-w-7xl mx-auto">
+            <div className="mb-6">
+              <TopThreadsCard threads={getTopThreads()} />
+            </div>
+            
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold">
                 {activeFilter === 'all' && 'All Emails'}
