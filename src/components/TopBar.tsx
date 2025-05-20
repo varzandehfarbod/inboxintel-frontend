@@ -1,6 +1,8 @@
 
 import React from 'react';
-import { Menu, Bell, User } from 'lucide-react';
+import { Menu, Bell, User, Settings } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 interface TopBarProps {
   toggleSidebar: () => void;
@@ -20,6 +22,13 @@ const TopBar: React.FC<TopBarProps> = ({ toggleSidebar }) => {
       </div>
       
       <div className="flex items-center space-x-4">
+        <Link to="/settings">
+          <Button variant="ghost" size="icon" className="h-9 w-9">
+            <Settings className="h-5 w-5" />
+            <span className="sr-only">Settings</span>
+          </Button>
+        </Link>
+        
         <button className="p-2 rounded-full hover:bg-gray-100 relative">
           <Bell className="h-5 w-5" />
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
