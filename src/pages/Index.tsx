@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '@/components/Sidebar';
 import TopBar from '@/components/TopBar';
 import EmailCard from '@/components/EmailCard';
+import EmailModal from '@/components/EmailModal';
 import { emailThreads, EmailThread } from '@/components/data';
 
 const Index = () => {
@@ -76,6 +77,8 @@ const Index = () => {
           </div>
         </main>
       </div>
+      
+      <EmailModal />
     </div>
   );
 };

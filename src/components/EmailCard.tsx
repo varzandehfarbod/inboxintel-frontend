@@ -3,6 +3,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { EmailThread } from './data';
 import { MessageSquare, Clock, Flag } from 'lucide-react';
+import { useEmailModal } from '@/hooks/useEmailModal';
 
 interface EmailCardProps {
   email: EmailThread;
@@ -18,6 +19,8 @@ const EmailCard: React.FC<EmailCardProps> = ({ email }) => {
     timestamp,
     unread
   } = email;
+
+  const { openEmailModal } = useEmailModal();
 
   // Define urgency badge styles
   const urgencyStyles = {
@@ -49,10 +52,13 @@ const EmailCard: React.FC<EmailCardProps> = ({ email }) => {
   const ActionIcon = actionStyles[suggestedAction].icon;
 
   return (
-    <div className={cn(
-      "bg-white rounded-lg border p-4 shadow-sm hover:shadow-md transition-shadow",
-      unread && "border-l-4 border-l-primary"
-    )}>
+    <div 
+      className={cn(
+        "bg-white rounded-lg border p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer",
+        unread && "border-l-4 border-l-primary"
+      )}
+      onClick={() => openEmailModal(email)}
+    >
       <div className="flex justify-between items-start mb-2">
         <h3 className={cn(
           "text-base font-medium",
